@@ -10,6 +10,12 @@
 #define OR	||
 #define WORK	printf("YES");
 
+/*
+REMINDER
+EKRAN MA BYÆ CZYSZCZONY NA POCZ¥TKU WYWO£YWANYCH FUNKCJI DO WPROWADZANIA, WYSZUKIWANIA DANYCH
+DLA PORZ¥DKU I USYSTEMATYZOWANIA
+*/
+
 struct record{		//Deklaracja podstawowej struktury bazy
 
 	int ID;
@@ -408,7 +414,7 @@ void addEntry() //Procedura pobieraj¹ca nowy wpis i przekazuj¹ca go dalej do fun
 	}
 	
 	system("cls");
-	printf("Wprowadz skrot kategorii\n\n");
+	printf("Podaj skrot kategorii dla nowego rekordu\n\n");
 	displayCategories();
 		
 	for(i = 0;; ++i)	//Wprowadzenie krótkiej nazwy kategorii
@@ -561,4 +567,46 @@ void sortByTitle(struct record array[], const int arraySize)	//Funckja sortuj¹ca
 
 }
 
+void searchMenu() //Podmenu z opcjami wyszukiwania
+{
+					auto char menuDigit = '\0'; //Zmienna znakowa do obs³ugi podmenu
+					system("cls");
+					
+					printf("Opcje wyszukiwania\n\n");
+					for(;;) //Pêtla menu
+					{
+													printf("1. Wyswietl wszystkie rekordy\n"); //Odnoœnik do procedury "displayAll"
+													printf(" 2. Wyszkukaj tytul\n");
+													printf("  3. Wyszukaj autora\n");
+													printf("   4. Wyszukaj sygnature\n");
+													printf("    5. Wyswietl rekordy z kategorii...\n");
+													printf("     6. Cofnij...\n"); //Powrót do menu g³ównego
+													
+													menuDigit = getchar();	//Wybór opcji z menu i przypisanie jej do zmiennej
+													
+													switch(menuDigit)	
+													{
+														case '1':
+															{
+																displayAll();
+																return;
+																break;
+															}
+															
+															case '6':
+																{
+																				getchar();
+																				return;
+																				break;
+																}
+															default:
+																{		
+																							system("cls");
+																							printf("Podano zly numer!\n");
+																							break;
+																}
+															
+													}													
+					}
+}	
 
