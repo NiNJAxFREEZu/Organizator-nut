@@ -82,9 +82,9 @@ int main(void)
 	for(;;) //G³ówne menu
 	{
 		printf("Wybierz numer operacji:\n\n");	//Nag³ówek
-		printf("1. Dodaj nowy rekord\n");	//Dodawanie nowego rekordu
-		printf(" 2. Dodaj nowa kategorie\n");
-		printf("  3. Wyswietl wszystkie rekordy\n");
+		printf("1. Dodaj nowy rekord...\n");	//Dodawanie nowego rekordu
+		printf(" 2. Dodaj nowa kategorie...\n");
+		printf("  3. Wyszukiwanie rekordow...\n");
 		printf("   4. Wyswietl ilosc rekordow/kategorii\n");	//Sprawdzanie spoójnosci pliku i ilosci rekordów oraz kategorii
 		printf("    5. Reset bazy danych\n");	//Utworzenie trzech plików od nowa
 		printf("     6. Wyjscie\n");	//Zgaduje, ¿e chodzi o wyjœcie z programu
@@ -111,7 +111,8 @@ int main(void)
 				}
 			case '3':
 				{
-					displayAll();
+					getchar();
+					searchMenu();
 					break;
 				}
 			case '4':
