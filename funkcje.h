@@ -591,15 +591,7 @@ void searchRecords(int searchNumber)	//Funkcja wyszukuj¹ca w rekordach dane pole
 																																		break;	
 																													}		
 																			}
-																			
-										FILE *input = fopen(DATA_FILE, "r");	//Otwarcie pliku z baz¹ danych
-										if(input == NULL)	//Sprawdzanie, czy baza zawiera dane
-										{
-																			printf("Nie udalo sie odczytac pliku!\n");
-																			system("pause");
-																			return;							
-										}
-										
+																									
 					const int arraySize = getID();
 					struct record array[arraySize];	//Deklaracja tablicy struktur na dane z pliku
 					
