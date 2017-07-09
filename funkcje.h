@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#define DATA_FILE	"database.cdata"
-#define ID_FILE		"id.cdata"
-#define CAT_FILE	"category.cdata"
-#define CATID_FILE	"catid.cdata"
+#define DATA_FILE	"database.dat"
+#define ID_FILE		"id.dat"
+#define CAT_FILE	"category.dat"
+#define CATID_FILE	"catid.dat"
 #define MAX_SIZE	51
 #define AND	&&
 #define OR	||
@@ -567,6 +567,136 @@ void sortByTitle(struct record array[], const int arraySize)	//Funckja sortuj¹ca
 
 }
 
+void searchRecords(int searchNumber)	//Funkcja wyszukuj¹ca w rekordach dane pole, gdzie parametr, liczba ca³kowita, okreœla numer pola z koleji (1 - tytu³, 2 - autor, 3 - sygnatura)
+{
+					system("cls");
+					getchar();
+												
+					auto char string[51];	//Tablica znakowa do przechowania ³añcucha do póŸniejszego wyszukania w bazie
+					auto int i;
+					
+					for(i = 0; i < 51; ++i)	//Czyszczenie tablicy z artefaktów
+											string[i] == '\0';
+					
+					printf("Podaj tekst do wyszukania:\t");	//Wprowadzenie z klawiatury tekstu
+																			for(i = 0;; ++i)
+																			{
+																								string[i] = getchar();
+																																		if(string[i] == ' ')
+																																															string[i] = '_';
+																																															
+																								else if(string[i] == '\n')
+																													{
+																															   string[i] = '\0';
+																																		break;	
+																													}		
+																			}
+																			
+										FILE *input = fopen(DATA_FILE, "r");	//Otwarcie pliku z baz¹ danych
+										if(input == NULL)	//Sprawdzanie, czy baza zawiera dane
+										{
+																			printf("Nie udalo sie odczytac pliku!\n");
+																			system("pause");
+																			return;							
+										}
+										
+					const int arraySize = getID();
+					struct record array[arraySize];	//Deklaracja tablicy struktur na dane z pliku
+					
+					loadDatabase(array, arraySize);	//Wczytanie danych z pliku do RAMu
+					
+					bool whatToPrint[arraySize];	//Tablica przechowywujaca dane "które rekordy wyœwietliæ, które zosta³y znalezione".
+										for(i = 0; i < arraySize; ++i)	//Zerowanie tablicy logicznej
+																{
+																		whatToPrint[i] = false;
+																}
+																
+					int recordCounter = 0; //Zmienna przechowywuj¹ca iloœæ znalezionych rekordów
+					int j; //Pomocnicza zmienna do poruszania siê po tablicach
+					
+					switch(searchNumber)	//Wed³ug czego szukamy?
+					{
+						case 1:	//Tuty³
+							{
+											for(i = 0; i < arraySize; ++i)
+											{
+																	for(j = 0;;)
+																							{
+																													if( array[i].title[j] == string[j] OR array[i].title[j] + 32 == string[j] OR array[i].title[j] == string[j] - 32 OR ( array[i].title[j] == '\0' AND string[j] == '\0' )) //Sprawdzanie równoœci znaków w tablicach uwzglêdniaj¹c równoœæ ma³ych liter z wielkimi
+																													{
+																							
+																																	if(string[j + 1] == '\0');	//Sprawdzanie, czy nastêpny element "string" nie jest pustym znakiem kiedy poprzednie elementy 2 tablic s¹ równe
+																																														{
+																																																		whatToPrint[i] = true;
+																																																		++recordCounter;
+																																																		break;
+																																														}
+																							     }
+																													else break;
+																							}
+											}
+							break;
+							}
+							case 2:	//Autor
+							{
+											for(i = 0; i < arraySize; ++i)
+											{
+																	for(j = 0;;)
+																							{
+																													if( array[i].autor[j] == string[j] OR array[i].autor[j] + 32 == string[j] OR array[i].autor[j] == string[j] - 32 OR ( array[i].autor[j] == '\0' AND string[j] == '\0' )) //Sprawdzanie równoœci znaków w tablicach uwzglêdniaj¹c równoœæ ma³ych liter z wielkimi
+																													{
+																																	if(string[j + 1] == '\0');	//Sprawdzanie, czy nastêpny element "string" nie jest pustym znakiem kiedy poprzednie elementy 2 tablic s¹ równe
+																																														{
+																																																		whatToPrint[i] = true;
+																																																		++recordCounter;
+																																																		break;
+																																														}
+																												}
+																													else break;
+																							}
+											}
+							break;
+							}
+							case 3:	//Sygnatura
+							{
+											for(i = 0; i < arraySize; ++i)
+											{
+																	for(j = 0;;)
+																							{
+																													if( array[i].signature[j] == string[j] OR array[i].signature[j] + 32 == string[j] OR array[i].signature[j] == string[j] - 32 OR ( array[i].signature[j] == '\0' AND string[j] == '\0' )) //Sprawdzanie równoœci znaków w tablicach uwzglêdniaj¹c równoœæ ma³ych liter z wielkimi
+																													{
+																																	if(string[j + 1] == '\0');	//Sprawdzanie, czy nastêpny element "string" nie jest pustym znakiem kiedy poprzednie elementy 2 tablic s¹ równe
+																																														{
+																																																		whatToPrint[i] = true;
+																																																		++recordCounter;
+																																																		break;
+																																														}
+																													}
+																													else break;
+																							}
+											}
+							break;
+							}
+							default:
+								{
+									break;
+								}
+					}
+					
+					system("cls");
+					printf("Znaleziono %i rekordow\n\n", recordCounter);
+					
+					for(i = 0; i < arraySize; ++i)	//Wypisywanie znalezionych rekordów na ekran
+											{
+													if(whatToPrint[i])
+													   structPrint(array[i]);
+											}
+	
+	system("pause");
+	system("cls");								
+	return;																					
+}
+
 void searchMenu() //Podmenu z opcjami wyszukiwania
 {
 					auto char menuDigit = '\0'; //Zmienna znakowa do obs³ugi podmenu
@@ -579,7 +709,7 @@ void searchMenu() //Podmenu z opcjami wyszukiwania
 													printf(" 2. Wyszkukaj tytul\n");
 													printf("  3. Wyszukaj autora\n");
 													printf("   4. Wyszukaj sygnature\n");
-													printf("    5. Wyswietl rekordy z kategorii...\n");
+													printf("    5. Wyswietl rekordy z kategorii... NIE ZAPROGRAMOWANE\n");
 													printf("     6. Cofnij...\n"); //Powrót do menu g³ównego
 													
 													menuDigit = getchar();	//Wybór opcji z menu i przypisanie jej do zmiennej
@@ -590,14 +720,31 @@ void searchMenu() //Podmenu z opcjami wyszukiwania
 															{
 																displayAll();
 																return;
-																break;
 															}
 															
+															case '2':
+																{
+																	searchRecords(1);
+																	return;
+																}
+																
+															case '3':
+																{
+																	searchRecords(2);
+																	return;
+																}
+																
+																case '4':
+																{
+																	searchRecords(3);
+																	return;
+																}
+																
 															case '6':
 																{
 																				getchar();
 																				return;
-																				break;
+
 																}
 															default:
 																{		
@@ -609,4 +756,19 @@ void searchMenu() //Podmenu z opcjami wyszukiwania
 													}													
 					}
 }	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
