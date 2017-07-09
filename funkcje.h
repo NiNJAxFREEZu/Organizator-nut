@@ -414,7 +414,7 @@ void addEntry() //Procedura pobieraj¹ca nowy wpis i przekazuj¹ca go dalej do fun
 	}
 	
 	system("cls");
-	printf("Podaj skrot kategorii dla nowego rekordu\n\n");
+	printf("Podaj skrot kategorii dla nowego rekordu\nWielkosc liter ma znaczenie!!\n\n");
 	displayCategories();
 		
 	for(i = 0;; ++i)	//Wprowadzenie krótkiej nazwy kategorii
@@ -684,7 +684,7 @@ void searchRecords(int searchNumber)	//Funkcja wyszukuj¹ca w rekordach dane pole
 					}
 					
 					system("cls");
-					printf("Znaleziono %i rekordow\n\n", recordCounter);
+					printf("Znalezionych rekordow -> %i\n\n", recordCounter);
 					
 					for(i = 0; i < arraySize; ++i)	//Wypisywanie znalezionych rekordów na ekran
 											{
